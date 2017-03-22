@@ -19,7 +19,7 @@ else {
     const express = require('express'),
         app = express();
 
-    app.use('/', express.static(path.join(__dirname, '..', 'client'), { extensions: ['html'] }));
+    app.use('/', express.static(path.join(__dirname, '..', 'shared'), { extensions: ['html'] }));
     app.listen(8080, function() {
         log('Listening on port 8080.');
     });

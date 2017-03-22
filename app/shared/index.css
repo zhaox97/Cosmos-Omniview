@@ -1,0 +1,10 @@
+div#map {
+    width: 600px;
+    height: 600px;
+    float: left;
+}
+
+div#globe {
+    width: 600px;
+    height: 600px;
+}
