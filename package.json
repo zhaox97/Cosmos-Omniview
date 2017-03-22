@@ -1,0 +1,22 @@
+{
+  "name": "omniview",
+  "version": "1.0.0",
+  "description": "Basic web server for handling the front-end of the Omniview.",
+  "main": "app/server/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kenneth Worden",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cluster": "^0.7.7",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "chokidar": "^1.6.1"
+  }
+}
