@@ -12,6 +12,7 @@ module.exports = {
         path: path.join(__dirname, 'app', 'shared')
     },
     module: {
+        unknownContextCritical: false,
         loaders: [
             { test: /\.css$/, loader: "style-loader!css-loader" },
             {

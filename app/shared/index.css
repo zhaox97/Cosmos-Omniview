@@ -1,7 +1,7 @@
 div#map {
+    float: left;
     width: 600px;
     height: 600px;
-    float: left;
 }
 
 div#globe {

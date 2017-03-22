@@ -1,6 +1,11 @@
-window.CESIUM_BASE_URL = './';
-require('./cesium-build/CesiumUnminified/Cesium.js');
+window.CESIUM_BASE_URL = './lib/Cesium';
+require('./cesium-build/Cesium/Cesium.js');
 require('./cesium-build/Cesium/Widgets/widgets.css');
-let cesium = window.Cesium;
+var Cesium = window.Cesium;
 
-let viewer = new cesium.Viewer('globe');
+var viewer = new Cesium.Viewer('globe', {
+    imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
+        url : 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
+    }),
+    baseLayerPicker : false
+});
