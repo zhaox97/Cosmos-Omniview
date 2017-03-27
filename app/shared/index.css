@@ -1,10 +1,13 @@
 div#map {
-    float: left;
     width: 600px;
     height: 600px;
+    float: left;
+    cursor: crosshair;
 }
 
 div#globe {
     width: 600px;
     height: 600px;
+    float: right;
+    cursor: hand;
 }

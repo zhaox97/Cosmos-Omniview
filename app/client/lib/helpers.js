@@ -24,6 +24,9 @@ module.exports = {
     mapToLongLat: function(coords) {
         return ol.proj.transform(coords, getMapProjString(), 'EPSG:4326');
     },
+    radToDeg: function(rad) {
+        return rad * (180 / 3.141592653);
+    },
     onClick: function(id, cb) {
         document.getElementById(id).onclick = cb;
     }

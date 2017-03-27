@@ -8,6 +8,7 @@ let map, globe;
 
 function initMap() {
     let adelaide = helpers.longLatToMap(locations.adelaide),
+        adelaide2 = helpers.longLatToMap(locations.adelaide2),
         melbourne = helpers.longLatToMap(locations.melbourne);
 
     let layers = {
@@ -32,8 +33,8 @@ function initMap() {
     view = new ol.View({
         center: adelaide,
         zoom: defZoom,
-        minZoom: 3,
-        maxZoom: 17,
+        minZoom: 17.5,
+        maxZoom: 17.5,
         projection: helpers.getMapProjString()
     });
 
@@ -49,7 +50,7 @@ function initMap() {
 
     helpers.onClick('to_adelaide', function(e) {
         view.animate({
-            center: adelaide,
+            center: adelaide2,
             duration: 2000,
             zoom: defZoom
         });
@@ -92,4 +93,11 @@ function initMap() {
     });
 } // initMap
 
+function initGlobe() {
+    globe = cesium.init('globe', locations.adelaide);
+    cesium.sync(map);
+    // console.log('Globe: ' + globe);
+}
+
 initMap();
+initGlobe();

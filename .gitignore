@@ -39,4 +39,4 @@ jspm_packages
 ###################################
 
 # Webpack bundles
-.bundle.js
+*.bundle.js
