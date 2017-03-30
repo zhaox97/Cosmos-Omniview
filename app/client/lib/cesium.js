@@ -7,6 +7,7 @@ const Cesium = window.Cesium;
 
 const locations = require('./locations'),
     coords = require('./coords'),
+    ui = require('./ui'),
     ol = require('openlayers');
 
 let viewerId, viewer, interval = 0;
@@ -22,6 +23,7 @@ module.exports = {
             baseLayerPicker: false,
             vrButton: false,
             timeline: false,
+            geocoder: false,
             homeButton: false,
             infoBox: false,
             navigationHelpButton: false,
@@ -34,9 +36,9 @@ module.exports = {
         viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
         viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
         viewer.scene.screenSpaceCameraController.minimumZoomDistance = 200;
-        viewer.scene.screenSpaceCameraController.maximumZoomDistance = 900;
+        viewer.scene.screenSpaceCameraController.maximumZoomDistance = 800;
 
-        let center = Cesium.Cartesian3.fromDegrees(location[0], location[1], 900);
+        let center = Cesium.Cartesian3.fromDegrees(location[0], location[1], 800);
         viewer.camera.flyTo({
             destination: center,
             duration: 0
@@ -46,11 +48,13 @@ module.exports = {
     },
     sync: function(map) {
         const s = function() {
-            let rect = viewer.camera.computeViewRectangle(),
-            extent = ol.extent.boundingExtent([
-                [coords.radToDeg(rect.west), coords.radToDeg(rect.south)],
-                [coords.radToDeg(rect.east), coords.radToDeg(rect.north)]
-            ]);
+            const rect = viewer.camera.computeViewRectangle(),
+                b1 = [coords.radToDeg(rect.west), coords.radToDeg(rect.south)],
+                b2 = [coords.radToDeg(rect.east), coords.radToDeg(rect.north)],
+                extent = ol.extent.boundingExtent([
+                    b1,
+                    b2
+                ]);
             map.getView().fit(
                 ol.proj.transformExtent(
                     extent,
@@ -58,9 +62,10 @@ module.exports = {
                     coords.getMapProjString()
                 )
             );
+            ui.printBounds(b1, b2, ui.boundsTextId);
         };
         document.getElementById(viewerId).addEventListener('mouseover', function() {
-            if (!interval) interval = setInterval(s, 30);
+            if (!interval) interval = setInterval(s, 50);
         });
         document.getElementById(viewerId).addEventListener('mouseout', function() {
             clearInterval(interval);

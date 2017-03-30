@@ -1,6 +1,4 @@
-const ol = require('openlayers'),
-    cesium = require('./lib/cesium'),
-    events = require('./lib/events'),
+const cesium = require('./lib/cesium'),
     init = require('./lib/init'),
     ui = require('./lib/ui'),
     locations = require('./lib/locations');
