@@ -33,7 +33,8 @@ module.exports = {
         viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
         viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
         viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
-        viewer.scene.screenSpaceCameraController.minimumZoomDistance = 900;
+        viewer.scene.screenSpaceCameraController.minimumZoomDistance = 200;
+        viewer.scene.screenSpaceCameraController.maximumZoomDistance = 900;
 
         let center = Cesium.Cartesian3.fromDegrees(location[0], location[1], 900);
         viewer.camera.flyTo({
@@ -59,7 +60,7 @@ module.exports = {
             );
         };
         document.getElementById(viewerId).addEventListener('mouseover', function() {
-            if (!interval) interval = setInterval(s, 15);
+            if (!interval) interval = setInterval(s, 30);
         });
         document.getElementById(viewerId).addEventListener('mouseout', function() {
             clearInterval(interval);

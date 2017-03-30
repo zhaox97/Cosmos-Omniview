@@ -36,7 +36,7 @@ function map() {
         center: adelaide,
         zoom: defaultMapZoom,
         minZoom: 17,
-        maxZoom: 17,
+        maxZoom: 18,
         projection: coords.getMapProjString()
     });
 
@@ -59,7 +59,7 @@ function registerMapEvents(map, mapLayers) {
     const adelaide2 = coords.longLatToMap(locations.adelaide2),
         melbourne = coords.longLatToMap(locations.melbourne),
         view = map.getView();
-        
+
     events.onClick('to_adelaide', function(e) {
         view.animate({
             center: adelaide2,

@@ -15,4 +15,4 @@ function initGlobe() {
 }
 
 initGlobe();
-ui.printZoom('NOT IN MAP', ui.zoomTextId);
+ui.printMouse('NOT IN MAP', ui.mouseTextId);
