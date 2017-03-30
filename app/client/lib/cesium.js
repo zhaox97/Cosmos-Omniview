@@ -6,19 +6,20 @@ const Cesium = window.Cesium;
 // End //
 
 const locations = require('./locations'),
-    helpers = require('./helpers'),
+    coords = require('./coords'),
     ol = require('openlayers');
 
-let viewer;
+let viewerId, viewer, interval = 0;
 
 module.exports = {
     init: function(id, location) {
+        viewerId = id;
         viewer = new Cesium.Viewer(id, {
             imageryProvider: new Cesium.BingMapsImageryProvider({
-                url : '//dev.virtualearth.net'
+                url: '//dev.virtualearth.net'
             }),
             animation: false,
-            baseLayerPicker : false,
+            baseLayerPicker: false,
             vrButton: false,
             timeline: false,
             homeButton: false,
@@ -46,18 +47,23 @@ module.exports = {
         const s = function() {
             let rect = viewer.camera.computeViewRectangle(),
             extent = ol.extent.boundingExtent([
-                [helpers.radToDeg(rect.west), helpers.radToDeg(rect.south)],
-                [helpers.radToDeg(rect.east), helpers.radToDeg(rect.north)]
+                [coords.radToDeg(rect.west), coords.radToDeg(rect.south)],
+                [coords.radToDeg(rect.east), coords.radToDeg(rect.north)]
             ]);
             map.getView().fit(
                 ol.proj.transformExtent(
                     extent,
                     'EPSG:4326',
-                    helpers.getMapProjString()
+                    coords.getMapProjString()
                 )
             );
         };
-        viewer.camera.moveStart.addEventListener(s);
-        viewer.camera.moveEnd.addEventListener(s);
+        document.getElementById(viewerId).addEventListener('mouseover', function() {
+            if (!interval) interval = setInterval(s, 15);
+        });
+        document.getElementById(viewerId).addEventListener('mouseout', function() {
+            clearInterval(interval);
+            interval = 0;
+        });
     }
 }

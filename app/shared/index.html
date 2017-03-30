@@ -13,8 +13,8 @@
             <!-- Globe container -->
         </div>
         <div style="clear: both"></div>
-        <span id="mouse"></span><br />
         <span id="center"></span><br />
+        <span id="mouse"></span><br />
         <span id="zoom"></span><br />
         <button id="to_adelaide">Zoom on Adelaide</button>
         <button id="to_melbourne">Zoom on Melbourne</button>
@@ -24,137 +24,5 @@
         <br />
 
     </body>
-    <!-- <script src="http://www.webglearth.com/v2/api.js"></script>
-    <script src="./lib/ol-debug.js"></script>
-    <script src="./lib/helpers.js"></script>
-    <script src="./lib/locations.js"></script> -->
-    <!-- <script>
-        var defZoom = 11;
-        var map, globe;
-
-        function initMap() {
-            var adelaide = longLatToMap(locations.adelaide),
-                melbourne = longLatToMap(locations.melbourne);
-
-            var layers = {
-                default: new ol.layer.Tile({
-                    source: new ol.source.Stamen({
-                        layer: 'terrain-background'
-                    })
-                }),
-                toner: new ol.layer.Tile({
-                    source: new ol.source.Stamen({
-                        layer: 'toner'
-                    }),
-                    opacity: 0.4
-                }),
-                osm: new ol.layer.Tile({
-                    source: new ol.source.OSM(),
-                    opacity: 0
-                })
-            };
-
-            var labelsOpacity = 0.4,
-            view = new ol.View({
-                center: adelaide,
-                zoom: defZoom,
-                minZoom: 3,
-                maxZoom: 17,
-                projection: getMapProjString()
-            });
-
-            map = new ol.Map({
-                layers: [
-                    layers.default,
-                    layers.toner,
-                    layers.osm
-                ],
-                view: view,
-                target: 'map'
-            });
-
-            onClick('to_adelaide', function(e) {
-                view.animate({
-                    center: adelaide,
-                    duration: 2000,
-                    zoom: defZoom
-                });
-            });
-
-            onClick('to_melbourne', function(e) {
-                view.animate({
-                    center: melbourne,
-                    zoom: defZoom,
-                    duration: 2000
-                });
-            });
-
-            onClick('toggle_labels', function(e) {
-                if (layers.toner.getOpacity() != 0) layers.toner.setOpacity(0);
-                else layers.toner.setOpacity(labelsOpacity);
-            });
-
-            onClick('toggle_osm', function(e) {
-                if (layers.osm.getOpacity() != 0) {
-                    layers.default.setOpacity(1);
-                    layers.toner.setOpacity(labelsOpacity);
-                    layers.osm.setOpacity(0);
-                }
-                else {
-                    layers.default.setOpacity(0);
-                    layers.toner.setOpacity(0);
-                    layers.osm.setOpacity(1);
-                }
-            });
-
-            map.on('moveend', function(e) {
-                var newView = map.getView();
-                printZoom(newView.getZoom());
-                printCenter(mapToLongLat(newView.getCenter()));
-            });
-
-            map.on('pointermove', function(e) {
-                printMouse(mapToLongLat(e.coordinate));
-            });
-        } // initMap
-
-        function initGlobe() {
-            // Swap locations to lat/long from long/lat
-            var adelaide = reverseCoords(locations.adelaide),
-                melbourne = reverseCoords(locations.melbourne);
-
-            globe = new WE.map('globe', {
-                center: adelaide,
-                zoom: defZoom,
-                tilting: 0,
-                proxyHost: 'http://srtm.webglearth.com/cgi-bin/corsproxy.fcgi?url='
-            });
-
-            var layers = {
-                toner: WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: 'Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.',
-                    opacity: 1
-                })
-            }
-            layers.toner.addTo(globe);
-        }
-
-        function link(map, globe) {
-            map.on('moveend', function(e) {
-                var newView = map.getView();
-                globe.setView(reverseCoords(mapToLongLat(newView.getCenter())), newView.getZoom());
-            });
-
-            globe.on('moveend', function(e) {
-                console.log('moveend by globe? :O');
-                map.getView().setCenter(longLatToMap(reverseCoords(globe.getCenter())));
-                map.getView().setZoom(globe.getZoom());
-            });
-        }
-
-        initMap();
-        initGlobe();
-        link(map, globe);
-    </script> -->
     <script src="index.bundle.js"></script>
 </html>
