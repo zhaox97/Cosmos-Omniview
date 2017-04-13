@@ -1,3 +1,15 @@
+body {
+    background: #ffffff;
+}
+
+span.ui {
+    background: #ffffff;
+}
+
+span.cesium-credit-text {
+    display: none;
+}
+
 div#map {
     width: 600px;
     height: 600px;

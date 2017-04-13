@@ -5,6 +5,7 @@ function Ui() {
     this.centerTextId = 'center';
     this.zoomTextId = 'zoom';
     this.boundsTextId = 'bounds';
+    this.hitsTextId = 'hits';
 
     this.printCenter = function(c, id) {
         document.getElementById(id).innerHTML = 'Long/Lat: ' + c;
@@ -20,6 +21,10 @@ function Ui() {
 
     this.printBounds = function(b1, b2, id) {
         document.getElementById(id).innerHTML = 'Map Bounds: (' + b1 + ', ' + b2 + ')';
+    }
+
+    this.printHits = function(numHits, id) {
+        document.getElementById(id).innerHTML = 'Hits: ' + numHits;
     }
 };
 

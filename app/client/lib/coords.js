@@ -12,6 +12,7 @@ function getMapProjString() {
 
 module.exports = {
     getMapProjString: getMapProjString,
+    getMapDefaultProjString: getMapDefaultProjString,
     reverseCoords: function(coords) {
         return [coords[1], coords[0]];
     },
@@ -29,7 +30,18 @@ module.exports = {
             getMapDefaultProjString()
         );
     },
+    mapToLongLatExtent: function(extent) {
+        return ol.proj.transformExtent(
+            extent,
+            getMapProjString(),
+            getMapDefaultProjString()
+        );
+    },
     radToDeg: function(rad) {
         return rad * (180 / 3.141592653);
+    },
+    extentsEqual: function(ext1, ext2) {
+        return ext1[0] == ext2[0] && ext1[1] == ext2[1] &&
+            ext1[2] == ext2[2] && ext1[3] == ext2[3];
     }
 };

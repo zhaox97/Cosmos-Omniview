@@ -1,9 +1,15 @@
-const defaultMapZoom = 11;
+// Require Cesium-specific stuff to get it working with Webpack //
+window.CESIUM_BASE_URL = './lib/Cesium';
+require('./cesium-build/Cesium/Cesium.js');
+require('./cesium-build/Cesium/Widgets/widgets.css');
+const Cesium = window.Cesium;
+// End //
 
 const events = require('./events'),
     coords = require('./coords'),
-    locations = require('./locations'),
+    locations = require('../data/locations'),
     ui = require('./ui'),
+    es = require('./es'),
     ol = require('openlayers');
 
 module.exports = {
@@ -12,70 +18,81 @@ module.exports = {
 };
 
 function map() {
-    let adelaide = coords.longLatToMap(locations.adelaide);
-
-    let mapLayers = {
+    const minZoom = 17, maxZoom = 18;
+    // O-L Map. "OpenLayers Map"
+    let olMap, olMapLayers, olView;
+    olMapLayers = {
         default: new ol.layer.Tile({
             source: new ol.source.Stamen({
                 layer: 'terrain-background'
-            })
+            }),
+            opacity: 0
         }),
         toner: new ol.layer.Tile({
             source: new ol.source.Stamen({
                 layer: 'toner'
             }),
-            opacity: 0.4
+            opacity: 0
         }),
         osm: new ol.layer.Tile({
             source: new ol.source.OSM(),
-            opacity: 0
+            opacity: 1
         })
     };
-
-    let view = new ol.View({
-        center: adelaide,
-        zoom: defaultMapZoom,
-        minZoom: 17,
-        maxZoom: 18,
+    view = new ol.View({
+        center: coords.longLatToMap(locations.adelaide),
+        zoom: minZoom,
+        minZoom: minZoom,
+        maxZoom: maxZoom,
         projection: coords.getMapProjString()
     });
-
-    // O-L Map. "OpenLayers Map"
-    let olMap = new ol.Map({
+    olMap = new ol.Map({
         layers: [
-            mapLayers.default,
-            mapLayers.toner,
-            mapLayers.osm
+            olMapLayers.default,
+            olMapLayers.toner,
+            olMapLayers.osm
         ],
         view: view,
         target: ui.mapId
     });
-
-    registerMapEvents(olMap, mapLayers);
+    olMap._omnivents = {};
+    olMap._omnilayers = olMapLayers;
+    registerMapEvents(olMap, olMapLayers);
     return olMap;
 }
 
+function globe() {
+    const viewerId = ui.globeId,
+        viewer = new Cesium.Viewer(viewerId, {
+        imageryProvider: new Cesium.BingMapsImageryProvider({
+            url: '//dev.virtualearth.net'
+        }),
+        animation: false,
+        baseLayerPicker: false,
+        vrButton: false,
+        timeline: false,
+        geocoder: false,
+        homeButton: false,
+        infoBox: false,
+        navigationHelpButton: false,
+        sceneModePicker: false,
+        selectionIndicator: false,
+        clock: null
+    });
+    viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
+    viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
+    viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 250;
+    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 800;
+    let center = Cesium.Cartesian3.fromDegrees(locations.adelaide[0], locations.adelaide[1], 800);
+    viewer.camera.flyTo({
+        destination: center,
+        duration: 0
+    });
+    return viewer;
+}
+
 function registerMapEvents(map, mapLayers) {
-    const adelaide2 = coords.longLatToMap(locations.adelaide2),
-        melbourne = coords.longLatToMap(locations.melbourne),
-        view = map.getView();
-
-    events.onClick('to_adelaide', function(e) {
-        view.animate({
-            center: adelaide2,
-            duration: 2000,
-            zoom: defaultMapZoom
-        });
-    });
-
-    events.onClick('to_melbourne', function(e) {
-        view.animate({
-            center: melbourne,
-            zoom: defaultMapZoom,
-            duration: 2000
-        });
-    });
-
     const labelsOpacity = 0.4;
     events.onClick('toggle_labels', function(e) {
         if (mapLayers.toner.getOpacity() != 0) mapLayers.toner.setOpacity(0);
@@ -94,22 +111,4 @@ function registerMapEvents(map, mapLayers) {
             mapLayers.osm.setOpacity(1);
         }
     });
-
-    map.on('movestart', function(e) {
-        console.log('Mouse moving on map.');
-    });
-
-    map.on('moveend', function(e) {
-        let newView = map.getView();
-        ui.printZoom(newView.getZoom(), ui.zoomTextId);
-        ui.printCenter(coords.mapToLongLat(newView.getCenter()), ui.centerTextId);
-    });
-
-    map.on('pointermove', function(e) {
-        ui.printMouse(coords.mapToLongLat(e.coordinate), ui.mouseTextId);
-    });
-
-    map.getViewport().onmouseout = function(e) {
-        ui.printMouse('NOT IN MAP', ui.mouseTextId);
-    };
 }
