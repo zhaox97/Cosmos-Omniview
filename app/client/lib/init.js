@@ -40,7 +40,7 @@ function map() {
             opacity: 1
         })
     };
-    view = new ol.View({
+    olView = new ol.View({
         center: coords.longLatToMap(locations.adelaide),
         zoom: minZoom,
         minZoom: minZoom,
@@ -53,7 +53,7 @@ function map() {
             olMapLayers.toner,
             olMapLayers.osm
         ],
-        view: view,
+        view: olView,
         target: ui.mapId
     });
     olMap._omnivents = {};
