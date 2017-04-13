@@ -9,9 +9,16 @@ const init = require('./lib/init'),
     events = require('./lib/events'),
     coords = require('./lib/coords'),
     ui = require('./lib/ui'),
-    es = require('./lib/es'),
+    es = require('./lib/es'),   // Elastic search (es)
     ol = require('openlayers'),
+    io = require('socket.io-client'),
+    log = require('./lib/log'),
     locations = require('./data/locations');
+
+let socket = io.connect('http://localhost:8080');
+socket.on('overload', function(msg) {
+    alert(msg);
+});
 
 const zero = coords.longLatToMap(locations.zero),
     melbourne = coords.longLatToMap(locations.melbourne),
@@ -60,6 +67,7 @@ function getHits() {
         const latRange = (extent[3] < extent[1]) ? [extent[3], extent[1]] : [extent[1], extent[3]],
             longRange = (extent[2] < extent[0]) ? [extent[2], extent[0]] : [extent[0], extent[2]];
         mapExtent = extent;
+        socket.emit('mapmove', [latRange, longRange]);
         es.search({
             index: 'test_index',
             body: {
@@ -79,17 +87,20 @@ function getHits() {
             }
         }, function(err, resp) {
             if (err) {
-                console.log('ERROR');
-                console.log(err);
+                log('ERROR');
+                log(err);
+                ui.printHits('<b style="color: red;">ELASTICSEARCH ERROR</b>', ui.hitsTextId);
             }
-            console.log(resp.hits.total + ' hits.');
-            ui.printHits(resp.hits.total, ui.hitsTextId);
+            else {
+                log(resp.hits.total + ' hits.');
+                ui.printHits(resp.hits.total, ui.hitsTextId);
+            }
         });
     }
 }
 
 events.map.register('pointermove', map, function(event) {
-    console.log('"pointermove" EVENT EMITTED.');
+    log('"pointermove" EVENT EMITTED.');
     ui.printMouse(coords.mapToLongLat(event.coordinate), ui.mouseTextId);
 });
 
@@ -109,7 +120,7 @@ events.map.register('mouseout', map, function(event) {
 });
 
 events.map.register('movestart', map, function(event) {
-    console.log('"movestart" EVENT EMITTED.');
+    log('"movestart" EVENT EMITTED.');
 });
 
 events.onClick('to_adelaide', function() {
@@ -152,3 +163,5 @@ events.onMouseout(ui.globeId, function() {
     clearInterval(syncInterval);
     syncInterval = 0;
 });
+
+log('Omniview initialized.');

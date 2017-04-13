@@ -18,7 +18,7 @@ module.exports = {
 };
 
 function map() {
-    const minZoom = 17, maxZoom = 18;
+    const minZoom = 16, maxZoom = 19;
     // O-L Map. "OpenLayers Map"
     let olMap, olMapLayers, olView;
     olMapLayers = {
@@ -82,8 +82,8 @@ function globe() {
     viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
     viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
     viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 250;
-    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 800;
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 120;
+    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 2100;
     let center = Cesium.Cartesian3.fromDegrees(locations.adelaide[0], locations.adelaide[1], 800);
     viewer.camera.flyTo({
         destination: center,
