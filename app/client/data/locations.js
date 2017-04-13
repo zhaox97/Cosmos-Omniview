@@ -1,3 +1,4 @@
+'use strict';
 // Locations are stored as long/lats
 module.exports = {
     adelaide: [138.6007, -34.9285],

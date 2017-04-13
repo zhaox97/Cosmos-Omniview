@@ -1,3 +1,4 @@
+'use strict';
 const cluster = require('cluster'),
     path = require('path'),
     log = require('./lib/log'),

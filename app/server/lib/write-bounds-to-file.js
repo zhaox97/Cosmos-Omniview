@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('fs'),
     log = require('./log'),
     // boundsFile = '../../bounds.json';

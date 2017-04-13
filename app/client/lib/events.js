@@ -1,3 +1,4 @@
+'use strict';
 // Read the _omnivents prop
 const executor = function(eventName, event) {
     let listenerFunc;

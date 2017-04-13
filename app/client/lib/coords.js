@@ -1,3 +1,4 @@
+'use strict';
 const ol = require('openlayers');
 
 // The default map projection string.

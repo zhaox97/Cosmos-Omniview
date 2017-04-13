@@ -1,3 +1,4 @@
+'use strict';
 // Require Cesium-specific stuff to get it working with Webpack //
 window.CESIUM_BASE_URL = './lib/Cesium';
 require('./lib/cesium-build/Cesium/Cesium.js');
