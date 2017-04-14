@@ -13,6 +13,7 @@ const init = require('./lib/init'),
     es = require('./lib/es'),   // Elastic search (es)
     ol = require('openlayers'),
     io = require('socket.io-client'),
+    d3 = require('d3'),
     log = require('./lib/log'),
     locations = require('./data/locations');
 
@@ -72,28 +73,42 @@ function getHits() {
         es.search({
             index: 'test_index',
             body: {
-                size: 50,
+                size: 10,
                 query: {
-                    range: {
-                        latt: {
-                            gte: latRange[0],
-                            lte: latRange[1]
-                        },
-                        longt: {
-                            gte: longRange[0],
-                            lte: longRange[1]
-                        }
-                    }
-                }
-            }
+                    bool: {
+                        must: [
+                            {range: {
+                                latt: {
+                                    gte: latRange[0],
+                                    lte: latRange[1]
+                                }
+                            }},
+                            {range: {
+                                longt: {
+                                    gte: longRange[0],
+                                    lte: longRange[1]
+                                }
+                            }}
+                        ] // must
+                    } // bool
+                } // query
+            } // body
         }, function(err, resp) {
             if (err) {
-                log('ERROR');
+                log('ELASTICSEARCH ERROR');
                 log(err);
                 ui.printHits('<b style="color: red;">ELASTICSEARCH ERROR</b>', ui.hitsTextId);
             }
             else {
                 log(resp.hits.total + ' hits.');
+                for (let i = 0; i < resp.hits.hits.length; i++) {
+                    const hit = resp.hits.hits[i]._source;
+                    log(
+                        map.getPixelFromCoordinate(
+                            coords.longLatToMap([hit.longt, hit.latt])
+                        )
+                    );
+                }
                 ui.printHits(resp.hits.total, ui.hitsTextId);
             }
         });

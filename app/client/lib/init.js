@@ -84,7 +84,7 @@ function globe() {
     viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
     viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
     viewer.scene.screenSpaceCameraController.minimumZoomDistance = 120;
-    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 2100;
+    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1900;
     let center = Cesium.Cartesian3.fromDegrees(locations.adelaide[0], locations.adelaide[1], 800);
     viewer.camera.flyTo({
         destination: center,

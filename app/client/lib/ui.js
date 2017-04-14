@@ -30,7 +30,10 @@ function Ui() {
     }
 
     this.printZoom = function(z, id) {
-        document.getElementById(id).innerHTML = 'Zoom: ' + truncate(z, 2);
+        let minMax = '';
+        if (z == 19) minMax = ' (MAX)';
+        else if (z == 16) minMax = ' (MIN)';
+        document.getElementById(id).innerHTML = 'Zoom: ' + truncate(z, 2) + minMax;
     }
 
     this.printMouse = function(p, id) {

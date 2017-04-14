@@ -26,7 +26,7 @@ function writeBoundsToFile(latBounds, longBounds) {
                 log('There was an error when writing to file.');
                 throw err;
             }
-            log('Wrote bounds to ' + boundsFile);
+            // log('Wrote bounds to ' + boundsFile);
         }
     );
 }

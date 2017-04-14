@@ -11,13 +11,14 @@ const paths = {
     server: path.join(__dirname, 'app', 'server'),
 };
 
-log('Watching...')
+log('Starting up...');
 
 function main(args) {
     build().then(function() {
         runServer();
     });
 
+    log('Watching for file changes in app/ directory...');
     chokidar.watch(paths.client, {ignored: /[\/\\]\./}).on('change', function(path) {
         log('A client file changed!');
         build();

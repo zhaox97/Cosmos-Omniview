@@ -37,8 +37,14 @@ else {
                 'in another window. You may want to close it.');
         }
         conn.on('mapmove', function(bounds) {
-            log('Got bounds from client.');
             writeBoundsToFile(bounds[0], bounds[1]);
+            bounds[0] = bounds[0].map(function(el) {
+                return el.toFixed(6);
+            });
+            bounds[1] = bounds[1].map(function(el) {
+                return el.toFixed(6);
+            });
+            log('Bounds: lat(' + bounds[0] + '), long(' + bounds[1] + ')');
         });
         conn.on('disconnect', function() {
             log('Client disconnected.');
