@@ -6,10 +6,10 @@ require('./cesium-build/Cesium/Widgets/widgets.css');
 const Cesium = window.Cesium;
 // End //
 
-const events = require('./events'),
-    coords = require('./coords'),
+const events = require('./util/events'),
+    coords = require('./util/coords'),
     locations = require('../data/locations'),
-    ui = require('./ui'),
+    ui = require('../ui'),
     es = require('./es'),
     ol = require('openlayers');
 
@@ -58,6 +58,7 @@ function map() {
     });
     olMap._omnivents = {};
     olMap._omnilayers = olMapLayers;
+    olMap._omnixtent = null;
     registerMapEvents(olMap, olMapLayers);
     return olMap;
 }
@@ -83,13 +84,16 @@ function globe() {
     viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
     viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
     viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 120;
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 100;
     viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1900;
-    let center = Cesium.Cartesian3.fromDegrees(locations.adelaide[0], locations.adelaide[1], 800);
-    viewer.camera.flyTo({
-        destination: center,
-        duration: 0
-    });
+    viewer.goTo = function(loc, duration) {
+        const center = Cesium.Cartesian3.fromDegrees(loc[0], loc[1], 800);
+        viewer.camera.flyTo({
+            destination: center,
+            duration: duration
+        });
+    };
+    viewer.goTo(locations.adelaide, 0);
     return viewer;
 }
 

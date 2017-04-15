@@ -2,31 +2,65 @@
 <html>
     <head>
         <title>Omniview</title>
+        <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="ol.css" />
         <link rel="stylesheet" type="text/css" href="index.css" />
     </head>
     <body>
-        <div id="map">
-            <!-- Map container -->
+        <div class="row bg-views">
+            <div class="col-md-6" style="text-align:right;">
+                <div id="map" class="view">
+                    <!-- Map container -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="globe" class="view">
+                    <!-- Globe container -->
+                </div>
+            </div>
         </div>
-        <div id="globe">
-            <!-- Globe container -->
-        </div>
-        <div style="clear: both"></div>
-        <span class="ui" id="hits"></span><br />
-        <span class="ui" id="bounds"></span><br />
-        <span class="ui" id="center"></span><br />
-        <span class="ui" id="mouse"></span><br />
-        <span class="ui" id="zoom"></span><br />
-        <button id="to_adelaide">Go to Adelaide</button>
-        <button id="to_melbourne">Go to Melbourne</button>
-        <button id="to_washingtondc">Go to Washington, D.C.</button>
-        <button id="to_zero">Go to (0, 0)</button>
-        <br />
-        <button id="toggle_labels">Toggle Labels</button>
-        <button id="toggle_osm">Toggle OSM</button>
-        <br />
-
     </body>
+    <div id="dashboard" class="dashboard closed">
+        <div class="row dashbar">
+            <div class="col-md-3">
+                <h1>Omniview</h1>
+            </div>
+            <div class="col-md-6">
+                <span class="ui" id="hits"></span><br />
+                <span class="ui" id="mouse"></span>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" id="dashboardToggle">Toggle Dashboard</button>
+                <button class="btn btn-secondary" id="fullscreenToggle">Fullscreen</button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Time</h2>
+                <span class="time">3 years ago</span>
+                <input type="range" id="time" value="120" />
+                <span class="time">now</span>
+                <hr />
+                <h2>Information</h2>
+                <span class="ui" id="zoom"></span><br />
+                <span class="ui" id="center"></span><br />
+                <span class="ui" id="bounds"></span><br />
+            </div>
+            <div class="col-md-3">
+                <h2>Locations</h2>
+                <button class="btn btn-primary" id="to_adelaide">Adelaide, Austrailia</button>
+                <button class="btn btn-success" id="to_arlington">Arlington, VA</button>
+                <button class="btn btn-secondary" id="to_melbourne">Melbourne, Austrailia</button>
+                <button class="btn btn-secondary" id="to_washingtondc">Washington, D.C.</button>
+                <button class="btn btn-secondary" id="to_zero">(0, 0)</button>
+            </div>
+            <div class="col-md-3">
+                <h2>Layers</h2>
+                <button class="btn btn-secondary" id="toggle_osm">Toggle OSM</button>
+                <button class="btn btn-secondary" id="toggle_labels">Toggle Labels</button>
+            </div>
+        </div>
+    </div>
     <script src="index.bundle.js"></script>
 </html>

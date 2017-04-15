@@ -24,6 +24,9 @@ function Ui() {
     this.zoomTextId = 'zoom';
     this.boundsTextId = 'bounds';
     this.hitsTextId = 'hits';
+    this.dashboard = 'dashboard';
+    this.dashboardButton = 'dashboardToggle';
+    this.fullscreenButton = 'fullscreenToggle';
 
     this.printCenter = function(c, id) {
         document.getElementById(id).innerHTML = 'Long/Lat: ' + truncate(c, 6);

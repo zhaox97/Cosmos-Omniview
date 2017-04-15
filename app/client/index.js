@@ -7,14 +7,17 @@ const Cesium = window.Cesium;
 // End //
 //
 const init = require('./lib/init'),
-    events = require('./lib/events'),
-    coords = require('./lib/coords'),
-    ui = require('./lib/ui'),
+    events = require('./lib/util/events'),
+    coords = require('./lib/util/coords'),
+    ui = require('./ui'),
     es = require('./lib/es'),   // Elastic search (es)
     ol = require('openlayers'),
     io = require('socket.io-client'),
     d3 = require('d3'),
     log = require('./lib/log'),
+    getHits = require('./lib/map/get-hits'),
+    syncMap = require('./lib/map/sync-map'),
+    toggleFullscreen = require('./lib/map/toggle-fullscreen'),
     locations = require('./data/locations');
 
 let socket = io.connect('http://localhost:8080');
@@ -28,92 +31,13 @@ const zero = coords.longLatToMap(locations.zero),
     adelaide2 = coords.longLatToMap(locations.adelaide2),
     washingtondc = coords.longLatToMap(locations.washingtondc);
 
-let syncInterval, hitsInterval, mapExtent, map, globe;
+let syncInterval, hitsInterval, map, globe;
 map = init.map();
 globe = init.globe();
 
 ui.printHits('Initializing...', ui.hitsTextId);
 ui.printBounds('MOVE THE DRONE VIEW', '', ui.boundsTextId);
 ui.printMouse('NOT IN MAP', ui.mouseTextId);
-
-function mapSync() {
-    const rect = globe.camera.computeViewRectangle(),
-        b1 = [coords.radToDeg(rect.west), coords.radToDeg(rect.south)],
-        b2 = [coords.radToDeg(rect.east), coords.radToDeg(rect.north)],
-        extent = ol.extent.boundingExtent([
-            b1,
-            b2
-        ]);
-    map.getView().fit(
-        ol.proj.transformExtent(
-            extent,
-            coords.getMapDefaultProjString(),
-            coords.getMapProjString()
-        )
-    );
-    ui.printBounds(b1, b2, ui.boundsTextId);
-}
-
-function getHits() {
-    const newView = map.getView(),
-        center = newView.getCenter(),
-        zoom = newView.getZoom(),
-        extent = coords.mapToLongLatExtent(
-            newView.calculateExtent(map.getSize())
-        );
-
-    ui.printZoom(zoom, ui.zoomTextId);
-    ui.printCenter(coords.mapToLongLat(center), ui.centerTextId);
-
-    if (!mapExtent || !coords.extentsEqual(extent, mapExtent)) {
-        const latRange = (extent[3] < extent[1]) ? [extent[3], extent[1]] : [extent[1], extent[3]],
-            longRange = (extent[2] < extent[0]) ? [extent[2], extent[0]] : [extent[0], extent[2]];
-        mapExtent = extent;
-        socket.emit('mapmove', [latRange, longRange]);
-        es.search({
-            index: 'test_index',
-            body: {
-                size: 10,
-                query: {
-                    bool: {
-                        must: [
-                            {range: {
-                                latt: {
-                                    gte: latRange[0],
-                                    lte: latRange[1]
-                                }
-                            }},
-                            {range: {
-                                longt: {
-                                    gte: longRange[0],
-                                    lte: longRange[1]
-                                }
-                            }}
-                        ] // must
-                    } // bool
-                } // query
-            } // body
-        }, function(err, resp) {
-            if (err) {
-                log('ELASTICSEARCH ERROR');
-                log(err);
-                ui.printHits('<b style="color: red;">ELASTICSEARCH ERROR</b>', ui.hitsTextId);
-            }
-            else {
-                log(resp.hits.total + ' hits.');
-                for (let i = 0; i < resp.hits.hits.length; i++) {
-                    const hit = resp.hits.hits[i]._source;
-                    log(
-                        map.getPixelFromCoordinate(
-                            coords.longLatToMap([hit.longt, hit.latt])
-                        )
-                    );
-                }
-                ui.printHits(resp.hits.total, ui.hitsTextId);
-            }
-        });
-    }
-}
 
 events.map.register('pointermove', map, function(event) {
     log('"pointermove" EVENT EMITTED.');
@@ -128,7 +52,7 @@ events.map.register('movestart', map, function(event) {
 });
 
 events.map.register('moveend', map, function(event) {
-    if (!hitsInterval) hitsInterval = setInterval(getHits, 500);
+    if (!hitsInterval) hitsInterval = setInterval(getHits.bind(null, map, socket), 500);
 });
 
 events.map.register('mouseout', map, function(event) {
@@ -140,44 +64,48 @@ events.map.register('movestart', map, function(event) {
 });
 
 events.onClick('to_adelaide', function() {
-    map.getView().animate({
-        center: adelaide2,
-        duration: 2000,
-        zoom: 17
-    });
+    globe.goTo(locations.adelaide2, 4.0);
 });
 
 events.onClick('to_melbourne', function() {
-    map.getView().animate({
-        center: melbourne,
-        zoom: 17,
-        duration: 2000
-    });
+    globe.goTo(locations.melbourne, 4.0);
 });
 
 events.onClick('to_washingtondc', function() {
-    map.getView().animate({
-        center: washingtondc,
-        zoom: 17,
-        duration: 2000
-    });
+    globe.goTo(locations.washingtondc, 4.0);
+});
+
+events.onClick('to_arlington', function() {
+    globe.goTo(locations.arlington, 4.0);
 });
 
 events.onClick('to_zero', function() {
-    map.getView().animate({
-        center: zero,
-        zoom: 17,
-        duration: 2000
-    });
+    globe.goTo(locations.zero, 4.0);
 });
 
+events.onClick(ui.dashboardButton, function() {
+    let dashboard = document.getElementById(ui.dashboard);
+    dashboard.classList.toggle('closed');
+    dashboard.classList.toggle('open');
+});
+
+events.onClick(ui.fullscreenButton, function() {
+    toggleFullscreen();
+});
+
+let snap = true;
 events.onMouseover(ui.globeId, function() {
-    if (!syncInterval) syncInterval = setInterval(mapSync, 5);
+    ui.printMouse('IN DRONE VIEW', ui.mouseTextId);
+    syncMap(map, globe, snap);
+    if (snap) snap = false;
+    if (!syncInterval) syncInterval = setInterval(syncMap.bind(null, map, globe, snap), 15);
 });
 
 events.onMouseout(ui.globeId, function() {
+    snap = true;
     clearInterval(syncInterval);
     syncInterval = 0;
 });
 
+document.body.onload = syncMap(map, globe, true);
 log('Omniview initialized.');

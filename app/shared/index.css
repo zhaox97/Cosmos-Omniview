@@ -1,25 +1,65 @@
+html {
+    background: #111111;
+}
+
 body {
-    background: #ffffff;
+    background: #111111;
 }
 
 span.ui {
-    background: #ffffff;
+    background: #dddddd;
 }
 
 span.cesium-credit-text {
     display: none;
 }
 
+span.time {
+    font-size: .75em;
+}
+
 div#map {
-    width: 600px;
-    height: 600px;
-    float: left;
+    float: right;
     cursor: crosshair;
 }
 
 div#globe {
-    width: 600px;
-    height: 600px;
-    float: right;
-    cursor: hand;
+    /*float: right;*/
+    cursor: grab;
+}
+
+div.view {
+    width: 86vh;
+    height: 86vh;
+
+}
+
+div.row {
+    margin: 0;
+}
+
+div.dashboard {
+    position: fixed;
+    background: rgba(255, 255, 255, .9);
+    z-index: 100;
+    transition: ease 0.5s;
+    padding: 8px;
+    font-size: 1em;
+}
+
+div.dashbar {
+    background: rgba(199, 199, 199, .6);
+    margin: -8px -8px 0 -8px;
+    padding: 8px;
+}
+div.dashbar div {
+    height: 100%;
+}
+
+div.open {
+    bottom: 0;
+}
+
+div.closed {
+    bottom: -256px;
 }
