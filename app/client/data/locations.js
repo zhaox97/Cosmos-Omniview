@@ -5,6 +5,6 @@ module.exports = {
     adelaide2: [138.6207, -34.9385],
     melbourne: [144.9631, -37.8136],
     washingtondc: [-77.0369, 38.9072],
-    arlington: [-77.036900, 38.907200],
+    arlington: [-77.093592,38.857829],
     zero: [0, 0]
 };
