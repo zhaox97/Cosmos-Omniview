@@ -38,9 +38,30 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>Time</h2>
-                <span class="time">3 years ago</span>
-                <input type="range" id="time" value="120" />
-                <span class="time">now</span>
+                <input type="range" id="time" value="200" />
+                <div class="row">
+                    <div class="slider text-left col-md-3">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                3 months
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>3 months</li>
+                                <li>6 months</li>
+                                <li>9 months</li>
+                                <li>1 year</li>
+                                <li>2 years</li>
+                                <li>3 years</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="slider text-center col-md-6">
+                        August 3rd, 2017
+                    </div>
+                    <div class="slider text-right col-md-3">
+                        now
+                    </div>
+                </div>
                 <hr />
                 <h2>Information</h2>
                 <span class="ui" id="zoom"></span><br />
@@ -62,5 +83,8 @@
             </div>
         </div>
     </div>
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="vendor.bundle.js"></script>
     <script src="index.bundle.js"></script>
 </html>

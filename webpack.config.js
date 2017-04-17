@@ -1,4 +1,5 @@
-const path = require('path');
+const webpack = require('webpack'),
+    path = require('path');
 
 module.exports = {
     devtool: 'eval-source-map',
@@ -21,5 +22,15 @@ module.exports = {
             },
             { test: /Cesium\.js$/, loader: 'script-loader' }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor', 'manifest'],
+            minChunks: function (module) {
+               // this assumes your vendor imports exist in the node_modules directory
+               return module.context && module.context.indexOf('node_modules') !== -1;
+            }
+        }),
+        new webpack.NamedModulesPlugin()
+    ]
 };

@@ -11,7 +11,8 @@ const events = require('./util/events'),
     locations = require('../data/locations'),
     ui = require('../ui'),
     es = require('./es'),
-    ol = require('openlayers');
+    ol = require('openlayers'),
+    syncMap = require('./map/sync-map');
 
 module.exports = {
     map: map,
@@ -86,14 +87,16 @@ function globe() {
     viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
     viewer.scene.screenSpaceCameraController.minimumZoomDistance = 100;
     viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1900;
-    viewer.goTo = function(loc, duration) {
+    viewer.goTo = function(loc, duration, olMap) {
         const center = Cesium.Cartesian3.fromDegrees(loc[0], loc[1], 800);
         viewer.camera.flyTo({
             destination: center,
             duration: duration
         });
+        setTimeout(function(olMap, globe) {
+            syncMap(olMap, globe, false);
+        }.bind(null, olMap, viewer), (duration*1000 + 1));
     };
-    viewer.goTo(locations.adelaide, 0);
     return viewer;
 }
 

@@ -14,8 +14,13 @@ span.cesium-credit-text {
     display: none;
 }
 
-span.time {
-    font-size: .75em;
+.slider {
+    font-size: .95em;
+    padding: 0;
+}
+
+input#time {
+    width: 100%;
 }
 
 div#map {
@@ -61,5 +66,5 @@ div.open {
 }
 
 div.closed {
-    bottom: -256px;
+    bottom: -278px;
 }

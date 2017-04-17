@@ -5,7 +5,8 @@ require('./lib/cesium-build/Cesium/Cesium.js');
 require('./lib/cesium-build/Cesium/Widgets/widgets.css');
 const Cesium = window.Cesium;
 // End //
-//
+
+// Jquery is able to be used in this code; it is loaded in index.html //
 const init = require('./lib/init'),
     events = require('./lib/util/events'),
     coords = require('./lib/util/coords'),
@@ -34,6 +35,8 @@ const zero = coords.longLatToMap(locations.zero),
 let syncInterval, hitsInterval, map, globe;
 map = init.map();
 globe = init.globe();
+
+globe.goTo(locations.adelaide, 0, map);
 
 ui.printHits('Initializing...', ui.hitsTextId);
 ui.printBounds('MOVE THE DRONE VIEW', '', ui.boundsTextId);
@@ -64,23 +67,23 @@ events.map.register('movestart', map, function(event) {
 });
 
 events.onClick('to_adelaide', function() {
-    globe.goTo(locations.adelaide2, 4.0);
+    globe.goTo(locations.adelaide2, 4.0, map);
 });
 
 events.onClick('to_melbourne', function() {
-    globe.goTo(locations.melbourne, 4.0);
+    globe.goTo(locations.melbourne, 4.0, map);
 });
 
 events.onClick('to_washingtondc', function() {
-    globe.goTo(locations.washingtondc, 4.0);
+    globe.goTo(locations.washingtondc, 4.0, map);
 });
 
 events.onClick('to_arlington', function() {
-    globe.goTo(locations.arlington, 4.0);
+    globe.goTo(locations.arlington, 4.0, map);
 });
 
 events.onClick('to_zero', function() {
-    globe.goTo(locations.zero, 4.0);
+    globe.goTo(locations.zero, 4.0, map);
 });
 
 events.onClick(ui.dashboardButton, function() {
