@@ -19,6 +19,7 @@ const init = require('./lib/init'),
     getHits = require('./lib/map/get-hits'),
     syncMap = require('./lib/map/sync-map'),
     toggleFullscreen = require('./lib/map/toggle-fullscreen'),
+    timeSlider = require('./lib/time-slider'),
     locations = require('./data/locations');
 
 let socket = io.connect('http://localhost:8080');
@@ -55,7 +56,10 @@ events.map.register('movestart', map, function(event) {
 });
 
 events.map.register('moveend', map, function(event) {
-    if (!hitsInterval) hitsInterval = setInterval(getHits.bind(null, map, socket), 500);
+    if (!hitsInterval) {
+        log('Map move ended. Searching for relevant documents...');
+        hitsInterval = setInterval(getHits.bind(null, map, socket), 500);
+    }
 });
 
 events.map.register('mouseout', map, function(event) {
@@ -90,10 +94,24 @@ events.onClick(ui.dashboardButton, function() {
     let dashboard = document.getElementById(ui.dashboard);
     dashboard.classList.toggle('closed');
     dashboard.classList.toggle('open');
+    log('Dashboard toggled.');
 });
 
 events.onClick(ui.fullscreenButton, function() {
     toggleFullscreen();
+    log('Toggled fullscreen mode.');
+});
+
+$('ul.dropdown-menu li').on('click', function(e) {
+    e.preventDefault();
+    log('The time slider bounds changed.');
+    $(`#${ui.timeBoundDropdown}`).html($(this).html());
+    timeSlider();
+});
+
+$(`#${ui.timeSlider}`).on('change', function(e) {
+    log('The time slider was altered.');
+    timeSlider();
 });
 
 let snap = true;

@@ -8,6 +8,7 @@ body {
 
 span.ui {
     background: #dddddd;
+    color: #000000;
 }
 
 span.cesium-credit-text {
@@ -19,7 +20,14 @@ span.cesium-credit-text {
     padding: 0;
 }
 
-input#time {
+ul.dropdown-menu {
+    padding: 8px;
+    cursor: pointer;
+    height: 100px;
+    overflow: auto;
+}
+
+input#timeSlider {
     width: 100%;
 }
 
@@ -36,7 +44,6 @@ div#globe {
 div.view {
     width: 86vh;
     height: 86vh;
-
 }
 
 div.row {
@@ -53,7 +60,8 @@ div.dashboard {
 }
 
 div.dashbar {
-    background: rgba(199, 199, 199, .6);
+    background: rgba(30, 30, 30, .7);
+    color: #ffffff;
     margin: -8px -8px 0 -8px;
     padding: 8px;
 }

@@ -27,6 +27,10 @@ function Ui() {
     this.dashboard = 'dashboard';
     this.dashboardButton = 'dashboardToggle';
     this.fullscreenButton = 'fullscreenToggle';
+    this.timeCurrent = 'timeCurrent';
+    this.timeSlider = 'timeSlider';
+    this.timeBoundDropdown = 'timeLimit';
+    this.timeOptions = 'timeOptions';
 
     this.printCenter = function(c, id) {
         document.getElementById(id).innerHTML = 'Long/Lat: ' + truncate(c, 6);
