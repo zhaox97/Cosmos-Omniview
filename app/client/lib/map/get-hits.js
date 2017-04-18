@@ -2,17 +2,17 @@
 const ui = require('../../ui'),
     log = require('../log'),
     coords = require('../util/coords'),
+    timeSlider = require('../time-slider'),
     es = require('../es');
 
 module.exports = getHits;
 
-function getHits(map, socket) {
+function getHits(map, socket, force) {
     const newView = map.getView(),
         extent = coords.mapToLongLatExtent(
             newView.calculateExtent(map.getSize())
         );
-
-    if (!map._omnixtent || !coords.extentsEqual(extent, map._omnixtent)) {
+    if (force || !map._omnixtent || !coords.extentsEqual(extent, map._omnixtent)) {
         const latRange = (extent[3] < extent[1]) ? [extent[3], extent[1]] : [extent[1], extent[3]],
             longRange = (extent[2] < extent[0]) ? [extent[2], extent[0]] : [extent[0], extent[2]];
         map._omnixtent = extent;
@@ -35,7 +35,8 @@ function getHits(map, socket) {
                                     gte: longRange[0],
                                     lte: longRange[1]
                                 }
-                            }}
+                            }},
+                            timeSlider.getESQuery()
                         ] // must
                     } // bool
                 } // query

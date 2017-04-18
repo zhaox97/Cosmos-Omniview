@@ -1,6 +1,9 @@
 const ui = require('../ui');
 
-module.exports = update;
+module.exports = {
+    update: update,
+    getESQuery: getESQuery
+};
 
 function update() {
     const timeCurrent = document.getElementById(ui.timeCurrent),
@@ -11,6 +14,24 @@ function update() {
             Number(slider.getAttribute('max'))
         )
     );
+}
+
+function getESQuery() {
+    const timeCurrent = document.getElementById(ui.timeCurrent),
+        slider = document.getElementById(ui.timeSlider),
+        lowerTime = getCurrentTime(
+            slider.value,
+            Number(slider.getAttribute('max'))
+        ),
+        upperTime = (new Date()).getTime();
+    return {
+        range: {
+            timestamp: {
+                lte: upperTime,
+                gte: lowerTime
+            }
+        }
+    };
 }
 
 function getLowerTimeBound(now) {

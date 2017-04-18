@@ -58,7 +58,7 @@ events.map.register('movestart', map, function(event) {
 events.map.register('moveend', map, function(event) {
     if (!hitsInterval) {
         log('Map move ended. Searching for relevant documents...');
-        hitsInterval = setInterval(getHits.bind(null, map, socket), 500);
+        hitsInterval = setInterval(getHits.bind(null, map, socket, false), 500);
     }
 });
 
@@ -106,12 +106,14 @@ $('ul.dropdown-menu li').on('click', function(e) {
     e.preventDefault();
     log('The time slider bounds changed.');
     $(`#${ui.timeBoundDropdown}`).html($(this).html());
-    timeSlider();
+    timeSlider.update();
+    getHits(map, socket, true);
 });
 
 $(`#${ui.timeSlider}`).on('change', function(e) {
     log('The time slider was altered.');
-    timeSlider();
+    timeSlider.update();
+    getHits(map, socket, true);
 });
 
 let snap = true;
