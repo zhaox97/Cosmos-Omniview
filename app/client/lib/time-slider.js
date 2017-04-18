@@ -1,3 +1,4 @@
+'use strict';
 const ui = require('../ui');
 
 module.exports = {
@@ -56,10 +57,10 @@ function getCurrentTime(val, maxVal) {
 
 function getDateString(unixTime) {
     const date = new Date(unixTime),
-        months = ['January','February','March',
-            'April','May','June',
-            'July','August','September',
-            'October','November','December'],
+        months = ['Jan','Feb','Mar',
+            'Apr','May','Jun',
+            'Jul','Aug','Sep',
+            'Oct','Nov','Dec'],
         month = months[date.getMonth()],
         day = date.getDate(),
         year = date.getFullYear();
