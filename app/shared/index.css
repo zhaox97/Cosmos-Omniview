@@ -54,7 +54,7 @@ div.dashboard {
     position: fixed;
     background: rgba(255, 255, 255, .9);
     z-index: 100;
-    transition: ease 0.5s;
+    transition: ease 0.3s;
     padding: 8px;
     font-size: 1em;
 }

@@ -25,7 +25,7 @@ function syncMap(map, globe, snap) {
         projectedExtent,
         {
             constrainResolution: true,
-            duration: snap ? 1500 : 0
+            duration: snap ? 750 : 0
         }
     );
     ui.printZoom(zoom, ui.zoomTextId);
