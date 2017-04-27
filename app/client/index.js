@@ -11,7 +11,6 @@ const init = require('./lib/init'),
     events = require('./lib/util/events'),
     coords = require('./lib/util/coords'),
     ui = require('./ui'),
-    es = require('./lib/es'),   // Elastic search (es)
     ol = require('openlayers'),
     io = require('socket.io-client'),
     log = require('./lib/log'),
@@ -19,13 +18,9 @@ const init = require('./lib/init'),
     syncMap = require('./lib/map/sync-map'),
     toggleFullscreen = require('./lib/map/toggle-fullscreen'),
     timeSlider = require('./lib/time-slider'),
+    getDocsLayer = require('./lib/map/get-docs-layer'),
     locations = require('./data/locations'),
     config = require('../../config');
-
-let socket = io.connect('http://' + config.host + ':' + config.port.toString());
-socket.on('overload', function(msg) {
-    alert(msg);
-});
 
 const zero = coords.longLatToMap(locations.zero),
     melbourne = coords.longLatToMap(locations.melbourne),
@@ -133,3 +128,23 @@ events.onMouseout(ui.globeId, function() {
 document.body.onload = syncMap(map, globe, true);
 log('Searching for documents from elasticsearch index: ' + config.elasticSearchIndex);
 log('Omniview initialized.');
+
+let socket = io.connect('http://' + config.host + ':' + config.port.toString());
+socket.on('overload', function(msg) {
+    alert(msg);
+});
+socket.on('docs', function(resp) {
+    log(resp.hits.total + ' hits.');
+    // If a docs layer exists, erase it.
+    if (map._omnidocslayer) {
+        map.removeLayer(map._omnidocslayer);
+    }
+    map._omnidocslayer = getDocsLayer(resp.hits.hits);
+    map.addLayer(map._omnidocslayer);
+    ui.printHits(resp.hits.total, ui.hitsTextId);
+});
+socket.on('docs_error', function(err) {
+    log('ELASTICSEARCH ERROR');
+    log(err);
+    ui.printHits('<b style="color: red;">ELASTICSEARCH ERROR</b>', ui.hitsTextId);
+});

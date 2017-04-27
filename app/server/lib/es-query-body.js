@@ -1,8 +1,7 @@
-const timeSlider = require('../time-slider'),
-    config = require('../../../../config');
+const config = require('../../../config');
 
 
-module.exports = function(size, latRange, longRange) {
+module.exports = function(size, latRange, longRange, timeQuery) {
     return {
         index: config.elasticSearchIndex,
         body: {
@@ -22,7 +21,7 @@ module.exports = function(size, latRange, longRange) {
                                 lte: longRange[1]
                             }
                         }},
-                        timeSlider.getESQuery()
+                        timeQuery   // ES formatted json range query
                     ] // must
                 } // bool
             } // query

@@ -1,12 +1,9 @@
 'use strict';
 const ol = require('openlayers'),
-    _ = require('lodash'),
     ui = require('../../ui'),
     log = require('../log'),
     coords = require('../util/coords'),
-    esQueryBody = require('./es-query-body'),
-    getDocsLayer = require('./get-docs-layer'),
-    es = require('../es'),
+    timeSlider = require('../time-slider'),
     config = require('../../../../config');
 
 module.exports = getHits;
@@ -22,24 +19,9 @@ function getHits(map, socket, force) {
             longRange = (extent[2] < extent[0]) ? [extent[2], extent[0]] : [extent[0], extent[2]];
 
         map._omnixtent = extent;
-        socket.emit('mapmove', [latRange, longRange]);
-
-        es.search(esQueryBody(config.documentCount, latRange, longRange), function(err, resp) {
-            if (err) {
-                log('ELASTICSEARCH ERROR');
-                log(err);
-                ui.printHits('<b style="color: red;">ELASTICSEARCH ERROR</b>', ui.hitsTextId);
-            }
-            else {
-                log(resp.hits.total + ' hits.');
-                // If a docs layer exists, erase it.
-                if (map._omnidocslayer) {
-                    map.removeLayer(map._omnidocslayer);
-                }
-                map._omnidocslayer = getDocsLayer(resp.hits.hits);
-                map.addLayer(map._omnidocslayer);
-                ui.printHits(resp.hits.total, ui.hitsTextId);
-            }
+        socket.emit('mapmove', {
+            bounds: [latRange, longRange],
+            time: timeSlider.getESQuery()
         });
     }
 }

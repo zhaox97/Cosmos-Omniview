@@ -23,7 +23,8 @@ else {
         app = express(),
         server = require('http').createServer(app),
         socket = require('socket.io').listen(server),
-        writeBoundsToFile = require('./lib/write-bounds-to-file');
+        writeBoundsToFile = require('./lib/write-bounds-to-file'),
+        getDocuments = require('./lib/get-docs');
 
     app.use('/', express.static(path.join(__dirname, '..', 'shared'), { extensions: ['html'] }));
     server.listen(config.port, function() {
@@ -37,7 +38,19 @@ else {
             conn.emit('overload', 'There seems to be a client connected ' +
                 'in another window. You may want to close it.');
         }
-        conn.on('mapmove', function(bounds) {
+        conn.on('mapmove', function(resp) {
+            const bounds = resp.bounds,
+                time = resp.time;
+
+            log('Getting documents');
+            getDocuments(config.documentCount, bounds[0], bounds[1], time)
+            .then(function(resp) {
+                conn.emit('docs', resp);
+            })
+            .catch(function(err) {
+                conn.emit('docs_error', err)
+            });
+
             writeBoundsToFile(bounds[0], bounds[1]);
             bounds[0] = bounds[0].map(function(el) {
                 return el.toFixed(6);

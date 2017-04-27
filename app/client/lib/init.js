@@ -10,7 +10,6 @@ const events = require('./util/events'),
     coords = require('./util/coords'),
     locations = require('../data/locations'),
     ui = require('../ui'),
-    es = require('./es'),
     ol = require('openlayers'),
     syncMap = require('./map/sync-map');
 
