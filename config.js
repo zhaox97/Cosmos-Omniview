@@ -11,6 +11,6 @@ module.exports = {
     snapDuration: 500,
     // What port the server should be hosted on
     port: 8080,
-    elasticSearchHost: 'localhost',
+    elasticSearchHost: 'cosmos.cs.vt.edu',
     elasticSearchPort: '9200'
 };
