@@ -1,8 +1,10 @@
-timeSlider = require('../time-slider');
+const timeSlider = require('../time-slider'),
+    config = require('../../../../config');
+
 
 module.exports = function(size, latRange, longRange) {
     return {
-        index: 'test_index',
+        index: config.elasticSearchIndex,
         body: {
             size: size,
             query: {

@@ -131,4 +131,5 @@ events.onMouseout(ui.globeId, function() {
 });
 
 document.body.onload = syncMap(map, globe, true);
+log('Searching for documents from elasticsearch index: ' + config.elasticSearchIndex);
 log('Omniview initialized.');
