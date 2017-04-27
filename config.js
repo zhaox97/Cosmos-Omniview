@@ -10,5 +10,7 @@ module.exports = {
     // When the user moves their mouse out of the map, how fast should they zoom back in?
     snapDuration: 500,
     // What port the server should be hosted on
-    port: 8080
+    port: 8080,
+    elasticSearchHost: 'localhost',
+    elasticSearchPort: '9200'
 };

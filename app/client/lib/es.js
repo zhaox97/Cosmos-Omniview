@@ -1,6 +1,8 @@
 'use strict';
-const elasticsearch = require('elasticsearch');
+const elasticsearch = require('elasticsearch'),
+    config = require('../../../config');
+
 module.exports = new elasticsearch.Client({
     // log: 'trace',
-    host: 'localhost:9200'
+    host: config.elasticSearchHost + ':' + config.elasticSearchPort
 });
