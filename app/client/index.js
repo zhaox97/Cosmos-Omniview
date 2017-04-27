@@ -19,9 +19,10 @@ const init = require('./lib/init'),
     syncMap = require('./lib/map/sync-map'),
     toggleFullscreen = require('./lib/map/toggle-fullscreen'),
     timeSlider = require('./lib/time-slider'),
-    locations = require('./data/locations');
+    locations = require('./data/locations'),
+    config = require('../../config');
 
-let socket = io.connect('http://localhost:8080');
+let socket = io.connect('http://' + config.host + ':' + config.port.toString());
 socket.on('overload', function(msg) {
     alert(msg);
 });

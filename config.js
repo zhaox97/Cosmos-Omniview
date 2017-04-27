@@ -12,5 +12,7 @@ module.exports = {
     // What port the server should be hosted on
     port: 8080,
     elasticSearchHost: 'cosmos.cs.vt.edu',
-    elasticSearchPort: '9200'
+    elasticSearchPort: '9200',
+    // What hostname the server is running on
+    host: 'cosmos.cs.vt.edu'
 };
