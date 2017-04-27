@@ -24,21 +24,17 @@ function map() {
     // O-L Map. "OpenLayers Map"
     let olMap, olMapLayers, olView;
     olMapLayers = {
-        default: new ol.layer.Tile({
-            source: new ol.source.Stamen({
-                layer: 'terrain-background'
-            }),
-            opacity: 0
-        }),
-        toner: new ol.layer.Tile({
-            source: new ol.source.Stamen({
-                layer: 'toner'
-            }),
-            opacity: 0
-        }),
         osm: new ol.layer.Tile({
             source: new ol.source.OSM(),
             opacity: 1
+        }),
+        docs: new ol.layer.Image({
+            source: new ol.source.ImageCanvas({
+                canvasFunction: function(extent, resolution, pixelRatio, size, proj) {
+                    return document.createElement('canvas');
+                },
+                projection: coords.getMapProjString()
+            })
         })
     };
     olView = new ol.View({
@@ -50,8 +46,6 @@ function map() {
     });
     olMap = new ol.Map({
         layers: [
-            olMapLayers.default,
-            olMapLayers.toner,
             olMapLayers.osm
         ],
         view: olView,
@@ -60,6 +54,7 @@ function map() {
     olMap._omnivents = {};
     olMap._omnilayers = olMapLayers;
     olMap._omnixtent = null;
+    olMap._omnidocslayer = null;
     registerMapEvents(olMap, olMapLayers);
     return olMap;
 }
@@ -101,22 +96,10 @@ function globe() {
 }
 
 function registerMapEvents(map, mapLayers) {
-    const labelsOpacity = 0.4;
-    events.onClick('toggle_labels', function(e) {
-        if (mapLayers.toner.getOpacity() != 0) mapLayers.toner.setOpacity(0);
-        else mapLayers.toner.setOpacity(labelsOpacity);
-    });
-
     events.onClick('toggle_osm', function(e) {
-        if (mapLayers.osm.getOpacity() != 0) {
-            mapLayers.default.setOpacity(1);
-            mapLayers.toner.setOpacity(labelsOpacity);
+        if (mapLayers.osm.getOpacity() != 0)
             mapLayers.osm.setOpacity(0);
-        }
-        else {
-            mapLayers.default.setOpacity(0);
-            mapLayers.toner.setOpacity(0);
+        else
             mapLayers.osm.setOpacity(1);
-        }
     });
 }

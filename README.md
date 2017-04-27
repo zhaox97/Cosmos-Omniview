@@ -2,6 +2,14 @@
 
 The Omniview. Uses [OpenLayers 4.0.1](http://openlayers.org/) and [Cesium](http://cesiumjs.org/) to render the views.
 
+## Configuration
+
+Take a look at the `config.js` file in the root directory. In here you can configure a few options.
+
+**port**: The port number that the server will run on.
+
+**boundsFileLocation**: The *absolute* path that the bounds.json file will be written to. This file is necessary to connect Cosmos and Omniview. Every time the map bounds change in Omniview, this file will be written with the latitude/longitude bounds formatted for elastic search.
+
 ## Building
 
 Node Package Manager (NPM) must be installed in order to run the project. [You can get it here.](https://nodejs.org/en/download/) Once it is installed, clone this project, open a terminal and change to the cloned directory and run:

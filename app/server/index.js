@@ -2,6 +2,7 @@
 const cluster = require('cluster'),
     path = require('path'),
     log = require('./lib/log'),
+    config = require('../../config'),
     cpuCount = 1; // require('os').cpus().length;
 
 let clients = 0;
@@ -25,8 +26,8 @@ else {
         writeBoundsToFile = require('./lib/write-bounds-to-file');
 
     app.use('/', express.static(path.join(__dirname, '..', 'shared'), { extensions: ['html'] }));
-    server.listen(8080, function() {
-        log('Listening on port 8080.');
+    server.listen(config.port, function() {
+        log('Listening on port ' + config.port);
     });
     // Socket.io logic, listens for client events, reads latlong bounds, writes to file
     socket.on('connect', function(conn) {

@@ -39,7 +39,6 @@ function getLowerTimeBound(now) {
     const timeStr = document.getElementById(ui.timeBoundDropdown).innerHTML.split(' '),
         count = Number(timeStr[0]),
         unit = timeStr[1].toLowerCase();
-    console.log(timeStr);
     if (unit.includes('year'))
         return now - (count * (1000 * 60 * 60 * 24 * 365));
     else if (unit.includes('month'))

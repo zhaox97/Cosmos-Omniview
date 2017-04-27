@@ -14,7 +14,6 @@ const init = require('./lib/init'),
     es = require('./lib/es'),   // Elastic search (es)
     ol = require('openlayers'),
     io = require('socket.io-client'),
-    d3 = require('d3'),
     log = require('./lib/log'),
     getHits = require('./lib/map/get-hits'),
     syncMap = require('./lib/map/sync-map'),

@@ -1,9 +1,13 @@
 'use strict';
-const ui = require('../../ui'),
+const ol = require('openlayers'),
+    _ = require('lodash'),
+    ui = require('../../ui'),
     log = require('../log'),
     coords = require('../util/coords'),
-    timeSlider = require('../time-slider'),
-    es = require('../es');
+    esQueryBody = require('./es-query-body'),
+    getDocsLayer = require('./get-docs-layer'),
+    es = require('../es'),
+    config = require('../../../../config');
 
 module.exports = getHits;
 
@@ -12,36 +16,15 @@ function getHits(map, socket, force) {
         extent = coords.mapToLongLatExtent(
             newView.calculateExtent(map.getSize())
         );
+    // Only requery for hits if the extent has changed, or if we should force it
     if (force || !map._omnixtent || !coords.extentsEqual(extent, map._omnixtent)) {
         const latRange = (extent[3] < extent[1]) ? [extent[3], extent[1]] : [extent[1], extent[3]],
             longRange = (extent[2] < extent[0]) ? [extent[2], extent[0]] : [extent[0], extent[2]];
+
         map._omnixtent = extent;
         socket.emit('mapmove', [latRange, longRange]);
-        es.search({
-            index: 'test_index',
-            body: {
-                size: 10,
-                query: {
-                    bool: {
-                        must: [
-                            {range: {
-                                latt: {
-                                    gte: latRange[0],
-                                    lte: latRange[1]
-                                }
-                            }},
-                            {range: {
-                                longt: {
-                                    gte: longRange[0],
-                                    lte: longRange[1]
-                                }
-                            }},
-                            timeSlider.getESQuery()
-                        ] // must
-                    } // bool
-                } // query
-            } // body
-        }, function(err, resp) {
+
+        es.search(esQueryBody(config.documentCount, latRange, longRange), function(err, resp) {
             if (err) {
                 log('ELASTICSEARCH ERROR');
                 log(err);
@@ -49,14 +32,12 @@ function getHits(map, socket, force) {
             }
             else {
                 log(resp.hits.total + ' hits.');
-                // for (let i = 0; i < resp.hits.hits.length; i++) {
-                //     const hit = resp.hits.hits[i]._source;
-                //     log(
-                //         map.getPixelFromCoordinate(
-                //             coords.longLatToMap([hit.longt, hit.latt])
-                //         )
-                //     );
-                // }
+                // If a docs layer exists, erase it.
+                if (map._omnidocslayer) {
+                    map.removeLayer(map._omnidocslayer);
+                }
+                map._omnidocslayer = getDocsLayer(resp.hits.hits);
+                map.addLayer(map._omnidocslayer);
                 ui.printHits(resp.hits.total, ui.hitsTextId);
             }
         });

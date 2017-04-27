@@ -1,7 +1,9 @@
 'use strict';
 const ui = require('../../ui'),
     coords = require('../util/coords'),
-    ol = require('openlayers');
+    ol = require('openlayers'),
+    config = require('../../../../config');
+
 
 module.exports = syncMap;
 
@@ -25,7 +27,7 @@ function syncMap(map, globe, snap) {
         projectedExtent,
         {
             constrainResolution: true,
-            duration: snap ? 750 : 0
+            duration: snap ? config.snapDuration : 0
         }
     );
     ui.printZoom(zoom, ui.zoomTextId);
