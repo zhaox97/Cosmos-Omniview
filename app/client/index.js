@@ -69,20 +69,64 @@ events.onClick('to_adelaide', function() {
     globe.goTo(locations.adelaide2, 4.0, map);
 });
 
-events.onClick('to_melbourne', function() {
-    globe.goTo(locations.melbourne, 4.0, map);
-});
-
 events.onClick('to_washingtondc', function() {
     globe.goTo(locations.washingtondc, 4.0, map);
 });
 
-events.onClick('to_arlington', function() {
-    globe.goTo(locations.arlington, 4.0, map);
+events.onClick('to_1', function() {
+    globe.goTo(locations.scenario1, 4.0, map);
 });
 
-events.onClick('to_zero', function() {
-    globe.goTo(locations.zero, 4.0, map);
+events.onClick('to_2', function() {
+    globe.goTo(locations.scenario2, 4.0, map);
+});
+
+events.onClick('to_3', function() {
+    globe.goTo(locations.scenario3, 4.0, map);
+});
+
+events.onClick('to_4', function() {
+    globe.goTo(locations.scenario4, 4.0, map);
+});
+
+events.onClick('to_5', function() {
+    globe.goTo(locations.scenario5, 4.0, map);
+});
+
+events.onClick('to_6', function() {
+    globe.goTo(locations.scenario6, 4.0, map);
+});
+
+events.onClick('to_7', function() {
+    globe.goTo(locations.scenario7, 4.0, map);
+});
+
+events.onClick('to_8', function() {
+    globe.goTo(locations.scenario8, 4.0, map);
+});
+
+events.onClick('to_9', function() {
+    globe.goTo(locations.scenario9, 4.0, map);
+});
+
+events.onClick('to_10', function() {
+    globe.goTo(locations.scenario10, 4.0, map);
+});
+
+events.onClick('to_11', function() {
+    globe.goTo(locations.scenario11, 4.0, map);
+});
+
+events.onClick('to_12', function() {
+    globe.goTo(locations.scenario12, 4.0, map);
+});
+
+events.onClick('to_13', function() {
+    globe.goTo(locations.scenario13, 4.0, map);
+});
+
+events.onClick('to_14', function() {
+    globe.goTo(locations.scenario14, 4.0, map);
 });
 
 events.onClick(ui.dashboardButton, function() {
