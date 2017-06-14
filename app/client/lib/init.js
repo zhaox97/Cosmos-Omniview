@@ -61,9 +61,14 @@ function map() {
 function globe() {
     const viewerId = ui.globeId,
         viewer = new Cesium.Viewer(viewerId, {
-        imageryProvider: new Cesium.BingMapsImageryProvider({
-            url: '//dev.virtualearth.net'
-        }),
+	//NOTE: other imagery providers can be found in Cesium's documentation.
+	//for whatever reason, bing stopped working so we switched to ArcGis.
+
+        //imageryProvider: new Cesium.BingMapsImageryProvider({
+        //    url: 'https://dev.virtualearth.net'
+        imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+	    url: 'https://services.arcgisonline.com/ArcGis/rest/services/World_Imagery/MapServer'
+	}),
         animation: false,
         baseLayerPicker: false,
         vrButton: false,
