@@ -19,7 +19,7 @@ module.exports = {
 };
 
 function map() {
-    const minZoom = 16, maxZoom = 19;
+    const minZoom = 1, maxZoom = 1000;
     // O-L Map. "OpenLayers Map"
     let olMap, olMapLayers, olView;
     olMapLayers = {
@@ -40,7 +40,7 @@ function map() {
         center: coords.longLatToMap(locations.adelaide),
         zoom: minZoom,
         minZoom: minZoom,
-        maxZoom: maxZoom,
+        //maxZoom: maxZoom,
         projection: coords.getMapProjString()
     });
     olMap = new ol.Map({
@@ -84,8 +84,8 @@ function globe() {
     viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
     viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
     viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 100;
-    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 1900;
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
+    //viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
     viewer.goTo = function(loc, duration, olMap) {
         const center = Cesium.Cartesian3.fromDegrees(loc[0], loc[1], 800);
         viewer.camera.flyTo({
