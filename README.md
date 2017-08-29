@@ -1,6 +1,9 @@
 # Omniview
 
-The Omniview. Uses [OpenLayers 4.0.1](http://openlayers.org/) and [Cesium](http://cesiumjs.org/) to render the views.
+ This is the "Omniview" feature of CHITA 2017.  It is meant to run in conjunction with the CHITA tool.  It is intended to be a users first entry point to CHITA. It provides a map, camera, and geographical bounding box on/of the data available to CHITA search.  As a user pans across different parts of the world map, available data (documents) are displayed with map markers. When a user has discovered an interesting geography and data set, the user may choose to interact with those data through the main CHITA data visualization.  Omniview must be viewed through a browser window separate from CHITA.
+
+
+Uses [OpenLayers 4.0.1](http://openlayers.org/) and [Cesium](http://cesiumjs.org/) to render the views.
 
 ## Configuration
 
