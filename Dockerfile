@@ -6,7 +6,7 @@ WORKDIR /www
 COPY ./package.json /www
 RUN npm install
 
-COPY ./Omniview /www
+COPY . /www
 EXPOSE 8080
 
 CMD ["npm", "start"]
