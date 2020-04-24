@@ -40,3 +40,6 @@ jspm_packages
 
 # Webpack bundles
 *.bundle.js
+
+# Mac OS junk
+*.DS_STORE
