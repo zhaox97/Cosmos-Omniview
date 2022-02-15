@@ -10,25 +10,25 @@
   "author": "Kenneth Worden",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "body-parser": "^1.17.1",
-    "cesium": "^1.31.0",
-    "compression": "^1.6.2",
-    "cookie-parser": "^1.4.3",
-    "elasticsearch": "^13.0.0-rc2",
-    "express": "^4.15.2",
-    "lodash": "^4.17.4",
-    "openlayers": "^4.0.1",
-    "socket.io": "^1.7.3",
-    "socket.io-client": "^1.7.3",
-    "webpack": "^2.3.1"
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.1",
+    "cesium": "^1.90.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "elasticsearch": "^16.7.2",
+    "express": "^4.17.2",
+    "lodash": "^4.17.21",
+    "openlayers": "^6.12.0",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
+    "webpack": "^5.68.0"
   },
   "devDependencies": {
-    "chokidar": "^1.6.1",
-    "css-loader": "^0.27.3",
-    "file-loader": "^0.10.1",
-    "script-loader": "^0.7.0",
-    "style-loader": "^0.16.0"
+    "chokidar": "^3.5.3",
+    "css-loader": "^6.6.0",
+    "file-loader": "^6.2.0",
+    "script-loader": "^0.7.2",
+    "style-loader": "^3.3.1"
   },
   "build": "build.sh"
 }
