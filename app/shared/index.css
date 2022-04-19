@@ -1,0 +1,78 @@
+html {
+    background: #111111;
+}
+
+body {
+    background: #111111;
+}
+
+span.ui {
+    background: #dddddd;
+    color: #000000;
+}
+
+span.cesium-credit-text {
+    display: none;
+}
+
+.slider {
+    font-size: .95em;
+    padding: 0;
+}
+
+ul.dropdown-menu {
+    padding: 8px;
+    cursor: pointer;
+    height: 100px;
+    overflow: auto;
+}
+
+input#timeSlider {
+    width: 100%;
+}
+
+div#map {
+    float: right;
+    cursor: crosshair;
+}
+
+div#globe {
+    /*float: right;*/
+    cursor: grab;
+}
+
+div.view {
+    width: 86vh;
+    height: 86vh;
+}
+
+div.row {
+    margin: 0;
+}
+
+div.dashboard {
+    position: fixed;
+    background: rgba(255, 255, 255, .9);
+    z-index: 100;
+    transition: ease 0.3s;
+    padding: 8px;
+    font-size: 1em;
+}
+
+div.dashbar {
+    background: rgba(30, 30, 30, .7);
+    color: #ffffff;
+    margin: -8px -8px 0 -8px;
+    padding: 8px;
+}
+div.dashbar div {
+    height: 100%;
+}
+
+div.open {
+    bottom: 0;
+}
+
+div.closed {
+    bottom: -278px;
+}

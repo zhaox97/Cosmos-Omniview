@@ -1,0 +1,34 @@
+{
+  "name": "omniview",
+  "version": "1.0.1",
+  "description": "Basic web server for handling the front-end of the Omniview.",
+  "main": "app/server/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kenneth Worden",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.1",
+    "cesium": "^1.90.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "elasticsearch": "^16.7.2",
+    "express": "^4.17.2",
+    "lodash": "^4.17.21",
+    "openlayers": "^6.12.0",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
+    "webpack": "^5.68.0"
+  },
+  "devDependencies": {
+    "chokidar": "^3.5.3",
+    "css-loader": "^6.6.0",
+    "file-loader": "^6.2.0",
+    "script-loader": "^0.7.2",
+    "style-loader": "^3.3.1"
+  },
+  "build": "build.sh"
+}

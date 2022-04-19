@@ -1,0 +1,6 @@
+Count: 10000
+Save as: data_10000.json
+Lat lower bound: -35.0415765
+Long lower bound: 138.5196758
+Lat upper bound: -34.7408209
+Long upper bound: 138.7160564

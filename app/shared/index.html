@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Omniview</title>
+        <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="ol.css" />
+        <link rel="stylesheet" type="text/css" href="index.css" />
+    </head>
+    <body>
+        <div class="row bg-views">
+            <div class="col-md-6" style="text-align:right;">
+                <div id="map" class="view">
+                    <!-- Map container -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="globe" class="view">
+                    <!-- Globe container -->
+                </div>
+            </div>
+        </div>
+    </body>
+    <div id="dashboard" class="dashboard closed">
+        <div class="row dashbar">
+            <div class="col-md-3">
+                <h1>Omniview</h1>
+            </div>
+            <div class="col-md-6">
+                <span class="ui" id="hits"></span><br />
+                <span class="ui" id="mouse"></span>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" id="dashboardToggle">Toggle Dashboard</button>
+                <button class="btn btn-secondary" id="fullscreenToggle">Fullscreen</button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Time</h2>
+                <input type="range" id="timeSlider" value="0" step="0.5" max="200" />
+                <div class="row">
+                    <div class="slider text-left col-md-3">
+                        <div class="btn-group">
+                            <button id="timeLimit" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1 month</button>
+                            <ul id="timeOptions" class="dropdown-menu">
+                                <li>1 month</li>
+                                <li>3 months</li>
+                                <li>6 months</li>
+                                <li>9 months</li>
+                                <li>1 year</li>
+                                <li>2 years</li>
+                                <li>3 years</li>
+                                <li>5 years</li>
+                                <li>10 years</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="slider text-center col-md-6">
+                        from <span id="timeCurrent">...</span> until now
+                    </div>
+                    <div class="slider text-right col-md-3">
+                        now
+                    </div>
+                </div>
+                <hr />
+                <h2>Information</h2>
+                <span class="ui" id="zoom"></span><br />
+                <span class="ui" id="center"></span><br />
+                <span class="ui" id="bounds"></span><br />
+            </div>
+            <div class="col-md-3">
+                <h2>Locations</h2>
+                <button class="btn btn-primary" id="to_adelaide">Adelaide, Austrailia</button>
+                <button class="btn btn-secondary" id="to_washingtondc">Washington, D.C.</button>
+                <button class="btn btn-success" id="to_1">1</button>
+                <button class="btn btn-secondary" id="to_2">2</button>
+                <button class="btn btn-secondary" id="to_3">3</button>
+                <button class="btn btn-secondary" id="to_4">4</button>
+                <button class="btn btn-secondary" id="to_5">5</button>
+                <button class="btn btn-secondary" id="to_6">6</button>
+                <button class="btn btn-secondary" id="to_7">7</button>
+                <button class="btn btn-secondary" id="to_8">8</button>
+                <button class="btn btn-secondary" id="to_9">9</button>
+                <button class="btn btn-secondary" id="to_10">10</button>
+                <button class="btn btn-secondary" id="to_11">11</button>
+                <button class="btn btn-secondary" id="to_12">12</button>
+                <button class="btn btn-secondary" id="to_13">13</button>
+                <button class="btn btn-secondary" id="to_14">14</button>
+            </div>
+            <div class="col-md-3">
+                <h2>Layers</h2>
+                <button class="btn btn-secondary" id="toggle_osm">Toggle OSM</button>
+            </div>
+        </div>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="vendor.bundle.js"></script>
+    <script src="index.bundle.js"></script>
+</html>
